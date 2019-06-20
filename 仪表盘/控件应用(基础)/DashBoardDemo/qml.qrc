@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ArcBoard.qml</file>
+        <file>CourseBoard.qml</file>
+        <file>VelocityBoard.qml</file>
+    </qresource>
+</RCC>

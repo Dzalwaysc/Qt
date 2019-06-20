@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>circle.png</file>
+        <file>needle.png</file>
+        <file>outerCircle.png</file>
+        <file>OuterCircle.qml</file>
+        <file>DashBoard.qml</file>
+        <file>ForeGround.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>StarBackground1.qml</file>
+        <file>StarBackground2.qml</file>
+        <file>StarBackground3.qml</file>
+    </qresource>
+</RCC>
