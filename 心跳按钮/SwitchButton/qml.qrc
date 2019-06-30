@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>CircleOuter.qml</file>
+        <file>CircleInter.qml</file>
+        <file>SwitchButton.qml</file>
+        <file>image/circleOuter.png</file>
+        <file>ButtonOne.qml</file>
+        <file>image/circleInter1.png</file>
+        <file>image/circleInter2.png</file>
+        <file>image/circleInter3.png</file>
+        <file>image/circleInter4.png</file>
+        <file>image/circleInter5.png</file>
+    </qresource>
+</RCC>
