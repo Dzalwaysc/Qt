@@ -6,6 +6,7 @@ Window {
     width: 640
     height: 480
     title: qsTr("Hello World")
+    color: Qt.hsla(230, 0.64, 0.06, 1)
 
     TextScreen{
         id: screen
@@ -16,7 +17,7 @@ Window {
         width: 50
         height: 50
         x: 200; y: 100
-        color: "black"
+        color: "white"
 
         property int index: 0
         property int num: 0
