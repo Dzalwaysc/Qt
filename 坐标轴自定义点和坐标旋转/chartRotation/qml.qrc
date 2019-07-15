@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MyChart.qml</file>
+        <file>TargetPointModel.qml</file>
+    </qresource>
+</RCC>
