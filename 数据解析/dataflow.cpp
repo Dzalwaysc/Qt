@@ -1,5 +1,7 @@
-// 数据流接收  如果打的包数据已经完整，这Terminate不为空，否则Terminate为空
-QByteArray SerialPort::recvDataFlow(QByteArray recvMsg)
+/* 数据流接收  如果打的包数据已经完整，这Terminate不为空，否则Terminate为空 */
+
+// 有头有尾，报文中没有和头一样的字符，长度不固定
+QByteArray recvDataFlow(QByteArray recvMsg)
 {
     QByteArray Terminate; Terminate.clear();
     if( -1 != m_storeNow.indexOf("$") ){ // 现在打的包有头了
@@ -69,4 +71,69 @@ QByteArray SerialPort::recvDataFlow(QByteArray recvMsg)
         }
     }
     return Terminate;
+}
+
+// 有头无尾，报文中没有和头一样的字符，长度不固定 
+QByteArray recvDataFlow(QByteArray recvMsg)
+{
+    QByteArray Terminate;
+    int pHead = recvMsg.indexOf("$");
+    
+    // 如果当前的信息中没有$，且当前的包为空  此时的信息为无用信息
+    if( pHead == -1 && m_storeNow.isEmpty()){
+        return Terminate;
+    }
+    
+    // 如果当前的信息中没有$，但当前的包不为空  此时的信息为中段信息，加进来
+    if( pHead == -1 && !m_storeNow.isEmpty()){
+        m_storeNow += recvMsg;
+        return Terminate;
+    }
+    
+    // 如果当前的信息中有$，且当前的包为空  此时的信息为开头信息，加进来
+    if( pHead != -1 && m_storeNow.isEmpty()){
+        m_storeNow = recvMsg.right( recvMsg.length() - pHead);
+        return Terminate;
+    }
+    
+    // 如果当前的信息中有$，且包不为空  此时的信息有第二段信息以及第一段信息的尾
+    if( pHead != -1 && !m_storeNow.isEmpty()){
+        m_storeNow += recvMsg.left(pHead);
+        // 判断当前的信息是否有用
+        if(m_storeNow.left(5) == "$TXXX" || m_storeNow.left(5) == "$DWXX"){
+            Terminate = m_storeNow;
+        }
+        // 将$以及之后的信息放到新包中
+        m_storeNow.clear();
+        m_storeNow = recvMsg.right( recvMsg.length() - pHead);
+        return Terminate;
+    }
+    
+    return  Terminate;
+}
+
+// 有头无尾，报文中有和头一样的字符，长度固定
+QByteArray recvDataFlow(QByteArray recvMsg)
+{
+    // 判断接受完信息之后，当前的长度，如果当前长度>29
+    // 找Loc，如果能找到Loc，看看从size-L的距离有没有大于等于29
+    // 如果大于29，就只取29，然后把后面给留在下一个包中
+    // 如果等于29，就取29，然后把包清空
+    // 如果小于29，就继续等待
+    QByteArray Terminate;
+    
+    m_storeNow += recvMsg;
+    int pHead = m_storeNow.indexOf("Rem");
+    if( m_storeNow.size() - pHead > 29){
+        Terminate = m_storeNow.mid(pHead, 29);
+        QByteArray tmp = m_storeNow.right(m_storeNow.size() - pHead - 29);
+        m_storeNow.clear();
+        m_storeNow = tmp;
+    }
+    
+    else if( m_storeNow.size() - pHead == 29){
+        Terminate = m_storeNow;
+        m_storeNow.clear();
+    }
+    return  Terminate;
 }
