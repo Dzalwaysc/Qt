@@ -6,6 +6,7 @@ Window {
     width: 1024
     height: 750
     visible: true
+    // 网页引擎
     WebEngineView {
         id:webview
         anchors.fill: parent
